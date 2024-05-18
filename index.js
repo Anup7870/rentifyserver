@@ -14,15 +14,15 @@ app.listen(3000,()=>{
         console.log("Database connected");
     })
 })
-
+app.use(cors({
+    origin: '*'
+  }));
 // App Middleware
 app.use(express.json());
 // app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(cors({
-    origin: '*'
-  }));
+
 app.use("/api/auth",auth )
 app.use("/api/prop",prop)
 app.use((err,req,res,next)=>{
@@ -33,4 +33,8 @@ app.use((err,req,res,next)=>{
         statusCode,
         message
     });
+})
+
+app.post("/",(req,res)=>{
+    return res.json({message:"Hello World"})
 })
