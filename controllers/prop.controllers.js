@@ -41,7 +41,7 @@ export const createProperty = async (req, res, next) => {
 export const getProp = async (req, res, next) => {
     // console.log(req.query)
     const query = {};
-    console.log(req.query)
+    // console.log(req.query)
     req.query.city && (query.city = req.query.city);
     req.query.bed && (query.bed = req.query.bed);
     req.query.bath && (query.bath = req.query.bath);
@@ -51,6 +51,8 @@ export const getProp = async (req, res, next) => {
     req.query.school && (query.school = req.query.school);
     req.query.playground && (query.playground = req.query.playground);
     req.query.userId && (query.userId = req.query.userId);
+    req.query.type && (query.type = req.query.type);
+    req.query.for_ && (query.for_ = req.query.for_);
     
     try {
         const prop = await Prop.find(query);
@@ -112,9 +114,10 @@ export const contact = async (req, res, next) => {
         const sellerId = await User.findById(prop.userId);
         // send mail to the owner of the property using nodemailer
         console.log(sellerId)
+        
         var ownerEmailOption ={
             from:process.env.user,
-            to:prop.userId,
+            to:sellerId.email,
             subject:"Interested in your property",
             text:`${user.firstName} ${user.lastName} is interested in your property please contact him on ${user.email} or you can contact him on his phone number ${user.phone} `
         } 
@@ -125,21 +128,45 @@ export const contact = async (req, res, next) => {
             subject:"Property details",
             text:`You have shown interest in the property ${prop.type} located in ${prop.city} the owner of the property will contact you soon or you can contact him on his phone number ${sellerId.phone} or email him on ${sellerId.email}`
         }
-        try {
-            await transporer.sendMail(ownerEmailOption);
-            await transporer.sendMail(userEmailOption);
-            console.log("Mail sent")
-            return res.status(200).json({message:"Mail sent"})
-        } catch (error) {
-            next(error)
-        }
+        // try {
+        //     await transporer.sendMail(ownerEmailOption);
+        //     await transporer.sendMail(userEmailOption);
+        //     console.log("Mail sent")
+        //     return res.status(200).json({message:"Mail sent"})
+        // } catch (error) {
+        //     next(error)
+        // }
         // await transporer.sendMail(ownerEmailOption);
         // await transporer.sendMail(userEmailOption);
+        let transporter = nodemailer.createTransport({
+            service: 'gmail', // replace with your email provider
+            auth: {
+              user: process.env.USER,
+              pass: process.env.PASSWORD
+            }
+          });
+        
+          transporter.sendMail(ownerEmailOption, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+        
+          transporter.sendMail(userEmailOption, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
         
         return res.status(200).json({message:"Mail sent"})
     } catch (error) {
         next(error)
     }
+   
 }
 
 
