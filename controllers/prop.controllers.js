@@ -1,5 +1,5 @@
 import Prop from '../models/prop.model.js';
-import {erroHandler} from '../utils/errorHandler.js';
+import {erroHandler} from '../utils/errorhandler.js';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import User from '../models/user.model.js';
