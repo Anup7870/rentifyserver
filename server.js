@@ -8,7 +8,7 @@ import auth from './routes/auth.routes.js';
 import prop from './routes/prop.routes.js';
 const app = express();
 
-app.listen(443,()=>{
+app.listen(3000,()=>{
     console.log("server is runing on port 3000");
     mongoose.connect("mongodb+srv://kumaranup2505:IgG9OTDIqXmLqFsM@mearn-blog.ul2poel.mongodb.net/rentify?retryWrites=true&w=majority&appName=mearn-blog").then(()=>{
         console.log("Database connected");
