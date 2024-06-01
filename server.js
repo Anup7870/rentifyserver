@@ -10,7 +10,7 @@ const app = express();
 
 app.listen(443,()=>{
     console.log("server is runing on port 3000");
-    mongoose.connect("mongodb+srv://kumaranup2505:IgG9OTDIqXmLqFsM@mearn-blog.ul2poel.mongodb.net/rentify?retryWrites=true&w=majority&appName=mearn-blog").then(()=>{
+    mongoose.connect("mongodb+srv://kumaranup2505:anup1234@mearn-blog.ul2poel.mongodb.net/rentify?retryWrites=true&w=majority&appName=mearn-blog").then(()=>{
         console.log("Database connected");
     })
 })
